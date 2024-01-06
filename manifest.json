@@ -1,0 +1,34 @@
+{
+    "name": "feedBlocker",
+    "version": "0.0.1",
+    "description": "Cover your Instagram feed to increase productivity ",
+    "permissions": ["tabs", "storage"],
+    "host_permissions": ["https://www.instagram.com/"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://www.instagram.com/"],
+        "js": ["contentScript.js"]
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/skip.png"
+        ],
+        "matches": ["https://*.youtube.com/*"]
+      }
+    ],
+    "action": {
+      "default_icon": {
+        "16": "assets/skip.png",
+        "24": "assets/skip.png",
+        "32": "assets/skip.png"
+      },
+      "default_title": "feedBlocker",
+      "default_popup": "popup.html"
+    },
+    "manifest_version": 3
+}
