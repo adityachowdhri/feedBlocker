@@ -1,34 +1,45 @@
 {
-    "name": "feedBlocker",
-    "version": "0.0.1",
-    "description": "Cover your Instagram feed to increase productivity ",
-    "permissions": ["tabs", "storage"],
-    "host_permissions": ["https://www.instagram.com/"],
-    "background": {
-      "service_worker": "background.js"
+  "name": "Instagram Content Blocker",
+  "version": "1.0.0",
+  "description": "Cover your Instagram feed, stories, or direct messages to reduce distractions and increase productivity",
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.instagram.com/"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.instagram.com/"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/icon.png"
+      ],
+      "matches": [
+        "https://*.youtube.com/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "assets/icon.png",
+      "24": "assets/icon.png",
+      "32": "assets/icon.png"
     },
-    "content_scripts": [
-      {
-        "matches": ["https://www.instagram.com/"],
-        "js": ["contentScript.js"]
-      }
-    ],
-    "web_accessible_resources": [
-      {
-        "resources": [
-          "assets/icon.png"
-        ],
-        "matches": ["https://*.youtube.com/*"]
-      }
-    ],
-    "action": {
-      "default_icon": {
-        "16": "assets/icon.png",
-        "24": "assets/icon.png",
-        "32": "assets/icon.png"
-      },
-      "default_title": "feedBlocker",
-      "default_popup": "popup.html"
-    },
-    "manifest_version": 3
+    "default_title": "Instagram Content Blocker",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3
 }
