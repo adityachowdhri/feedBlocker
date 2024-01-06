@@ -10,10 +10,10 @@ chrome.runtime.onMessage.addListener((obj, sender, response) => {
     const { type, bool } = obj;
     if(type === "INSTAGRAM"){
         //Logic to deal with each state state on load and go to settings last used by user 
-        feed = document.getElementsByClassName("x9f619 xjbqb8w x78zum5 x168nmei x13lgxp2 x5pf9jr xo71vjh x1uhb9sk x1plvlek xryxfnj x1c4vz4f x2lah0s xdt5ytf xqjyukv x6s0dn4 x1oa3qoh x1nhvcw1")[0];
+        feed = document.getElementsByClassName("xdt5ytf xqjyukv x6s0dn4 x1oa3qoh x1nhvcw1")[0];
         parentFeed = feed.parentElement;
     
-        story = document.getElementsByClassName("_aac4 _aac6 _aj3f _ajdu")[0];
+        story = document.getElementsByClassName("_aac4")[0];
         parentStory = story.parentElement;
 
 
