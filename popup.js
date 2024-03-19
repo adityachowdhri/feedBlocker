@@ -2,6 +2,8 @@ import { getCurrentTab } from "./currentTab.js";
 const i = "Hide Feed";
 const j = "Hide Stories";
 const k = "Hide DM's";
+const x = "Hide Reels"
+const y = "Hide Explore"
 
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -15,6 +17,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     container.innerHTML += `<div class = "orientation"><label class="switch"><input type="checkbox" id="${i}"><span class="slider round"></span></label><p style="display: inline; padding: 2px">${i}</p></div>`;
     container.innerHTML += `<div class = "orientation"><label class="switch"><input type="checkbox" id="${j}"><span class="slider round"></span></label><p style="display: inline; padding: 2px">${j}</p></div>`;
     container.innerHTML += `<div class = "orientation"><label class="switch"><input type="checkbox" id="${k}"><span class="slider round"></span></label><p style="display: inline; padding: 2px">${k}</p></div>`;
+    container.innerHTML += `<div class = "orientation"><label class="switch"><input type="checkbox" id="${x}"><span class="slider round"></span></label><p style="display: inline; padding: 2px">${x}</p></div>`;
+    //container.innerHTML += `<div class = "orientation"><label class="switch"><input type="checkbox" id="${y}"><span class="slider round"></span></label><p style="display: inline; padding: 2px">${y}</p></div>`;
     addClicks();
 
     chrome.storage.sync.get('storyState', function (result) {
@@ -38,6 +42,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
+    chrome.storage.sync.get('reelState', function (result) {
+      const hideReel = document.getElementById(x);
+      if (result.reelState === true) {
+        hideReel.checked = !hideReel.checked;
+      }
+    });
+
+    chrome.storage.sync.get('exploreState', function (result) {
+      const hideExplore = document.getElementById(y);
+      if (result.exploreState === true) {
+        hideExplore.checked = !hideExplore.checked;
+      }
+    });
+
   } else {
     container.innerHTML = '<div class="title">Good Job! You are not on Instagram</div>';
   }
@@ -50,9 +68,14 @@ const addClicks = () => {
   const hideFeed = document.getElementById(i);
   const hideStory = document.getElementById(j);
   const hideDms = document.getElementById(k);
+  const hideReel = document.getElementById(x);
+  const hideExplore = document.getElementById(y)
   hideFeed.addEventListener("click", changeFeed);
   hideStory.addEventListener("click", changeStory);
   hideDms.addEventListener("click", changeDms);
+  hideReel.addEventListener("click", changeReel);
+  hideExplore.addEventListener("click", changeExplore);
+
 
 };
 
@@ -119,6 +142,47 @@ const changeDms = async () => {
     });
   }
 };
+
+const changeReel = async () => {
+  const activeTab = await getCurrentTab();
+  const hideReel = document.getElementById(x);
+
+  if (hideReel.checked) {
+    setState('reelState', true)
+    chrome.tabs.sendMessage(activeTab.id, {
+      type: "HIDEREEL",
+      bool: "TRUE",
+    });
+  }
+  else {
+    setState('reelState', false)
+    chrome.tabs.sendMessage(activeTab.id, {
+      type: "HIDEREEL",
+      bool: "FALSE",
+    });
+  }
+};
+
+const changeExplore = async () => {
+  const activeTab = await getCurrentTab();
+  const hideExplore = document.getElementById(y);
+
+  if (hideExplore.checked) {
+    setState('exploreState', true)
+    chrome.tabs.sendMessage(activeTab.id, {
+      type: "HIDEEXPLORE",
+      bool: "TRUE",
+    });
+  }
+  else {
+    setState('exploreState', false)
+    chrome.tabs.sendMessage(activeTab.id, {
+      type: "HIDEEXPLORE",
+      bool: "FALSE",
+    });
+  }
+};
+
 
 
 const setState = (key, value) => {

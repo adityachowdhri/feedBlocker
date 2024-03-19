@@ -1,6 +1,6 @@
 
 (() => {
-    let feed, dms, story, parentFeed, parentMsg, parentStory;
+    let feed, dms, story, reel, explore, parentFeed, parentMsg, parentStory, parentReel, parentExplore;
 
 
 
@@ -35,6 +35,18 @@
                 }
             });
 
+            chrome.storage.sync.get('reelState', function (result) {
+                if (result.reelState === true) {
+                    setTimeout(hideReel, 2000);
+                }
+            });
+
+            chrome.storage.sync.get('exploreState', function (result) {
+                if (result.exploreState === true) {
+                    setTimeout(hideExplore, 2000);
+                }
+            });
+
         }
 
         if (type === "HIDEFEED" && bool == "TRUE") {
@@ -55,6 +67,18 @@
         else if (type === "HIDEDM" && bool == "FALSE") {
             parentMsg.append(dms);
         };
+        if (type === "HIDEREEL" && bool == "TRUE") {
+            hideReel();
+        }
+        else if (type === "HIDEREEL" && bool == "FALSE") {
+            parentReel.append(reel);
+        };
+        if (type === "HIDEEXPLORE" && bool == "TRUE") {
+            hideExplore();
+        }
+        else if (type === "HIDEEXPLORE" && bool == "FALSE") {
+            parentExplore.append(explore);
+        };
     });
 
     const hideFeed = () => {
@@ -69,6 +93,17 @@
         dms = document.querySelector("a[href='/direct/inbox/']");
         parentMsg = dms.parentElement;
         dms.remove();
+    }
+
+    const hideReel = () => {
+        reel = document.querySelector("a[href='/reels/']");
+        parentReel = reel.parentElement;
+        reel.remove();
+    }
+    const hideExplore = () => {
+        reel = document.querySelector("a[href='/reels/']");
+        parentReel = reel.parentElement;
+        reel.remove();
     }
 
 
